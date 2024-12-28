@@ -124,19 +124,12 @@ jobs:
     - name: Setup Android environment
       uses: android-actions/setup-android@v3
 
-    - name: Decode Keystore
-      uses: timheuer/base64-to-file@v1
-      id: android_keystore
-      with:
-        fileName: "android_keystore.jks"
-        encodedString: ${{ secrets.APP_KEYSTORE_BASE64 }}
-
     - name: Build APK
       run: |
         cd ${{ github.workspace }}/V2rayNG
         chmod 755 gradlew
         ./gradlew licenseFdroidReleaseReport
-        ./gradlew assembleRelease -Pandroid.injected.signing.store.file=${{ steps.android_keystore.outputs.filePath }} -Pandroid.injected.signing.store.password=${{ secrets.APP_KEYSTORE_PASSWORD }} -Pandroid.injected.signing.key.alias=${{ secrets.APP_KEYSTORE_ALIAS }} -Pandroid.injected.signing.key.password=${{ secrets.APP_KEY_PASSWORD }}
+        ./gradlew assembleFdroidRelease
       env:
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
