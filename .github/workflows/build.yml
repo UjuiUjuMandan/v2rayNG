@@ -55,6 +55,7 @@ jobs:
       if: steps.cache-libtun2socks-restore.outputs.cache-hit != 'true'
       run: |
         cd ${{ github.workspace }}/AndroidLibXrayLite
+        curl -OL https://github.com/UjuiUjuMandan/AndroidLibXrayLite/raw/refs/heads/parameter/compile-tun2socks.sh
         bash compile-tun2socks.sh {{ matrix.abi }}
         tar -xvzf libtun2socks.so.tgz
       env:
